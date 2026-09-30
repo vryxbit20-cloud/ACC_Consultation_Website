@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}ACC ConsultCare{% endblock %}
+{% block content %}
+<section class="hero">
+<div class="hero-copy">
+<div class="eyebrow">ABUYOG COMMUNITY COLLEGE</div>
+<h1>Care that starts<br><span>with a conversation.</span></h1>
+<p>ACC ConsultCare gives students a simple and secure way to request consultations and connect with medical experts.</p>
+<a href="{{ url_for('login') }}" class="btn primary">Access Consultation Portal →</a>
+</div>
+<div class="hero-card">
+<div class="pulse"></div>
+<div class="hero-icon">✚</div>
+<h3>Student Wellness</h3>
+<p>Private consultation requests, expert responses, and clear status tracking in one place.</p>
+<div class="mini-stat"><b>24/7</b><span>Request anytime</span></div>
+</div>
+</section>
+<section class="features">
+<div><b>01</b><h3>Request</h3><p>Choose a medical expert and submit your concern.</p></div>
+<div><b>02</b><h3>Connect</h3><p>Your assigned expert reviews and responds to your request.</p></div>
+<div><b>03</b><h3>Track</h3><p>Follow every consultation from pending to completed.</p></div>
+</section>
+{% endblock %}

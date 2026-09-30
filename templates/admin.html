@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard · ACC{% endblock %}
+{% block content %}
+<main class="dashboard">
+<div class="page-head"><div><div class="eyebrow">SUPER ADMIN</div><h1>System overview</h1><p>Manage users, experts, and all consultation activity.</p></div></div>
+<div class="stats"><div class="stat"><span>Total Users</span><strong>{{ users|length }}</strong></div><div class="stat"><span>Medical Experts</span><strong>{{ experts|length }}</strong></div><div class="stat"><span>Consultations</span><strong>{{ consultations|length }}</strong></div><div class="stat"><span>Pending</span><strong>{{ consultations|selectattr('status','equalto','Pending')|list|length }}</strong></div></div>
+<div class="section-title"><h2>All consultations</h2></div>
+<div class="table-card"><table><thead><tr><th>ID</th><th>Student</th><th>Expert</th><th>Schedule</th><th>Status</th><th>Concern</th></tr></thead><tbody>
+{% for c in consultations %}<tr><td>#{{ c.id }}</td><td>User #{{ c.student_id }}</td><td>User #{{ c.expert_id }}</td><td>{{ c.schedule }}</td><td><span class="status {{ c.status|lower }}">{{ c.status }}</span></td><td>{{ c.concern }}</td></tr>{% endfor %}
+</tbody></table></div>
+<div class="section-title"><h2>User management</h2></div>
+<div class="table-card"><table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Action</th></tr></thead><tbody>
+{% for u in users %}<tr><td>{{ u.name }}</td><td>{{ u.email }}</td><td>{{ u.role|capitalize }}</td><td>{{ 'Active' if u.active else 'Inactive' }}</td><td>{% if u.role != 'admin' %}<a class="action" href="{{ url_for('toggle_user', user_id=u.id) }}">{{ 'Deactivate' if u.active else 'Activate' }}</a>{% else %}Protected{% endif %}</td></tr>{% endfor %}
+</tbody></table></div>
+</main>
+{% endblock %}

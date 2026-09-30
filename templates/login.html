@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Login · ACC ConsultCare{% endblock %}
+{% block content %}
+<div class="auth-page">
+<div class="auth-panel">
+<a href="{{ url_for('index') }}" class="back">← Back to home</a>
+<div class="auth-logo">ACC</div>
+<h1>Welcome back</h1>
+<p>Sign in to your consultation portal.</p>
+<form method="POST" class="form">
+<label>Email address<input type="email" name="email" placeholder="you@acc.edu.ph" required></label>
+<label>Password<input type="password" name="password" placeholder="••••••••" required></label>
+<button class="btn primary full">Sign in</button>
+</form>
+<div class="demo">
+<b>Demo accounts</b>
+<span>Admin: admin@acc.edu.ph</span>
+<span>Expert: expert@acc.edu.ph</span>
+<span>Student: student@acc.edu.ph</span>
+</div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Student Dashboard · ACC{% endblock %}
+{% block content %}
+<main class="dashboard">
+<div class="page-head"><div><div class="eyebrow">STUDENT PORTAL</div><h1>Hello, {{ session.get('name').split()[0] }}.</h1><p>Manage your consultation requests and wellness records.</p></div>
+<button class="btn primary" onclick="openModal('bookingModal')">＋ New Consultation</button></div>
+<div class="stats">
+<div class="stat"><span>Total Requests</span><strong>{{ consultations|length }}</strong></div>
+<div class="stat"><span>Pending</span><strong>{{ consultations|selectattr('status','equalto','Pending')|list|length }}</strong></div>
+<div class="stat"><span>Completed</span><strong>{{ consultations|selectattr('status','equalto','Completed')|list|length }}</strong></div>
+</div>
+<div class="section-title"><h2>My consultations</h2></div>
+<div class="table-card">
+{% if consultations %}
+<table><thead><tr><th>Expert</th><th>Concern</th><th>Schedule</th><th>Status</th><th>Response</th></tr></thead>
+<tbody>{% for c in consultations %}<tr>
+<td>Medical Expert #{{ c.expert_id }}</td><td>{{ c.concern }}</td><td>{{ c.schedule }}</td>
+<td><span class="status {{ c.status|lower }}">{{ c.status }}</span></td><td>{{ c.response or 'Waiting for expert response.' }}</td>
+</tr>{% endfor %}</tbody></table>
+{% else %}<div class="empty"><div>♡</div><h3>No consultations yet</h3><p>Start by requesting your first consultation.</p><button class="btn primary" onclick="openModal('bookingModal')">Book consultation</button></div>{% endif %}
+</div>
+</main>
+<div class="modal" id="bookingModal"><div class="modal-box"><button class="close" onclick="closeModal('bookingModal')">×</button><h2>New consultation</h2><p>Tell us what you need help with.</p>
+<form method="POST" action="{{ url_for('book') }}" class="form">
+<label>Medical expert<select name="expert_id" required>{% for e in experts %}<option value="{{ e.id }}">{{ e.name }} · {{ e.specialization }}</option>{% endfor %}</select></label>
+<label>Preferred date and time<input type="datetime-local" name="schedule" required></label>
+<label>Concern<textarea name="concern" rows="5" placeholder="Briefly describe your concern..." required></textarea></label>
+<button class="btn primary full">Submit request</button></form></div></div>
+{% endblock %}

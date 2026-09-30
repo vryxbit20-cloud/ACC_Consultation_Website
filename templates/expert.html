@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Medical Expert · ACC{% endblock %}
+{% block content %}
+<main class="dashboard">
+<div class="page-head"><div><div class="eyebrow">MEDICAL EXPERT PORTAL</div><h1>Consultation queue</h1><p>Review and respond to your assigned student consultations.</p></div></div>
+<div class="stats"><div class="stat"><span>Assigned</span><strong>{{ consultations|length }}</strong></div><div class="stat"><span>Pending</span><strong>{{ consultations|selectattr('status','equalto','Pending')|list|length }}</strong></div><div class="stat"><span>Completed</span><strong>{{ consultations|selectattr('status','equalto','Completed')|list|length }}</strong></div></div>
+<div class="consult-grid">{% for c in consultations %}
+<div class="consult-card"><div class="card-top"><span class="status {{ c.status|lower }}">{{ c.status }}</span><span>#{{ c.id }}</span></div>
+<h3>{{ students[c.student_id].name }}</h3><small>{{ students[c.student_id].course or 'Student' }} · {{ c.schedule }}</small>
+<div class="concern">{{ c.concern }}</div>
+<form method="POST" action="{{ url_for('update_consultation', consultation_id=c.id) }}" class="form">
+<select name="status"><option {% if c.status=='Pending' %}selected{% endif %}>Pending</option><option {% if c.status=='Approved' %}selected{% endif %}>Approved</option><option {% if c.status=='Completed' %}selected{% endif %}>Completed</option><option {% if c.status=='Cancelled' %}selected{% endif %}>Cancelled</option></select>
+<textarea name="response" rows="3" placeholder="Add response or notes...">{{ c.response }}</textarea>
+<button class="btn primary full">Save consultation</button></form></div>
+{% else %}<div class="empty"><h3>No assigned consultations</h3><p>New student requests will appear here.</p></div>{% endfor %}</div>
+</main>
+{% endblock %}
